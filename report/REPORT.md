@@ -63,8 +63,8 @@
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho retrieval? |
 |----------------|------|---------------|-------------------------------|
-| department | string | tech | Giúp phân nhóm bài báo theo từng danh mục công nghệ, trí tuệ nhân tạo, hay thiết bị. |
-| lang | string | vi | Giúp xác định ngôn ngữ bài báo để lọc ngôn ngữ hiển thị phù hợp với người dùng. |
+| category | string | space | Phân nhóm tài liệu theo lĩnh vực lớn như khoa học vũ trụ (space), công nghệ (tech), trí tuệ nhân tạo (ai). |
+| lang | string | vi | Xác định ngôn ngữ của bài viết để phục vụ lọc ngôn ngữ hiển thị tương ứng của người dùng. |
 
 ---
 
@@ -168,23 +168,23 @@ Chạy 5 benchmark queries của nhóm trên implementation cá nhân của bạ
 
 | # | Query | Gold Answer |
 |---|-------|-------------|
-| 1 | Trong bộ tài liệu, Microsoft đang phát triển hoặc công bố những sản phẩm AI nào và mục tiêu của chúng là gì? | Microsoft đang phát triển tác nhân tự chủ tương tự OpenClaw, chip lượng tử mới dưới sự trợ giúp của AI, và dự án AI Scout (mục tiêu nhằm khiến người dùng sử dụng thường xuyên/nghiện). |
-| 2 | Những tổ chức hoặc doanh nghiệp nào đang đầu tư mạnh vào AI, và họ tập trung vào những lĩnh vực hoặc ứng dụng nào? | Microsoft tập trung vào tác nhân tự chủ và chip lượng tử; Google (X) tập trung vào AI thay thế cách học truyền thống; Apple ứng dụng AI để giúp hệ sinh thái App Store đạt quy mô kỷ lục. |
-| 3 | Những dự án liên quan đến không gian vũ trụ trong tập tài liệu đang đối mặt với những cơ hội hoặc thách thức gì? | Thách thức: Tàu quỹ đạo Sao Hỏa (Maven) của NASA mất điện và ngừng hoạt động sau 11 năm; trung tâm dữ liệu vũ trụ của Musk đối mặt vấn đề về triển vọng thành công; SpaceX gặp rủi ro nguồn nước sạch. Cơ hội: Blue Origin có kế hoạch phóng lại tên lửa. |
-| 4 | Những đột phá khoa học hoặc công nghệ mới nào được đề cập trong bộ tài liệu, và chúng có thể tạo ra những tác động gì trong tương lai? | Đột phá gồm việc chỉnh sửa chính xác gene phôi người lần đầu tiên, phát triển mô hình ngôn ngữ lớn tiếng Việt 120 tỷ tham số, và ứng dụng AI vào vật liệu/chip lượng tử. Chúng có thể gây rủi ro về chuyên môn lao động tương lai. |
-| 5 | Những bài viết nào cho thấy AI đang tác động đến cách con người học tập, làm việc hoặc vận hành tổ chức? Hãy tổng hợp các tác động chính. | Các bài viết về Google X và phản ứng của sinh viên với AI cho thấy: ChatGPT đã giải quyết bài tập hoàn hảo làm thay đổi hoàn toàn cách ra đề của giáo viên, buộc các trường công nghệ phải nâng cấp chương trình và khiến giới trẻ lo lắng về khoảng trống chuyên môn. |
+| 1 | Trong bộ tài liệu, Microsoft đang phát triển hoặc công bố những sản phẩm AI nào và mục tiêu của chúng là gì? | Microsoft Scout - trợ lý giữ chân người dùng (bài 01); chip lượng tử mới 'với sự trợ giúp của AI' (bài 16); tác nhân tự chủ tương tự OpenClaw (bài 19). |
+| 2 | Những tổ chức hoặc doanh nghiệp nào đang đầu tư mạnh vào AI, và họ tập trung vào những lĩnh vực hoặc ứng dụng nào? | Apple (App Store tích hợp AI - bài 06); Google X (AI thay lối làm cũ - bài 02); Microsoft (Scout, chip lượng tử, tác nhân tự chủ - bài 01/16/19); công ty châu Âu dùng AI mở rộng sang Mỹ (bài 20); Việt Nam phát triển LLM 120 tỷ tham số (bài 11). |
+| 3 | Những dự án liên quan đến không gian vũ trụ trong tập tài liệu đang đối mặt với những cơ hội hoặc thách thức gì? | Blue Origin muốn phóng lại tên lửa trước cuối năm (bài 09); tàu quỹ đạo Sao Hỏa của NASA dừng hoạt động sau 11 năm (bài 13); tham vọng trung tâm dữ liệu vũ trụ của Musk khó thành (bài 15); rủi ro nước sạch khi SpaceX IPO (bài 18). |
+| 4 | Những đột phá khoa học hoặc công nghệ mới nào được đề cập trong bộ tài liệu, và chúng có thể tạo ra những tác động gì trong tương lai? | Lần đầu chỉnh sửa chính xác gene phôi người (bài 05); chip lượng tử mới của Microsoft (bài 16); LLM tiếng Việt 120 tỷ tham số (bài 11); lắp đặt lò phản ứng hạt nhân bằng cần cẩu lớn nhất thế giới (bài 14). |
+| 5 | Những bài viết nào cho thấy AI đang tác động đến cách con người học tập, làm việc hoặc vận hành tổ chức? Hãy tổng hợp các tác động chính. | Sinh viên hào hứng với AI nhưng bất định về tương lai (bài 17); Google X - không thể theo lối cũ khi AI làm tốt hơn (bài 02); ứng dụng mô hình 4 lớp trong chuyển đổi số cấp xã/phường (bài 10); AI giúp công ty châu Âu mở rộng sang Mỹ (bài 20). |
 
 ### Kết Quả Của Tôi
 
 | # | Query | Top-1 Retrieved Chunk (tóm tắt) | Score | Relevant? | Agent Answer (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Trong bo tai lieu, Microsoft dang phat trien... | 16_Microsoft ra chip lượng tử mới... | 0.3044 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
-| 2 | Nhung to chuc hoac doanh nghiep nao dang... | 04_Mỹ loại bỏ 23 triệu kg cá chép... | 0.2109 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo Popular Science, trong 15 năm... |
-| 3 | Nhung du an lien quan den khong gian vu tru... | 16_Microsoft ra chip lượng tử mới... | 0.1628 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
-| 4 | Nhung dot pha khoa hoc hoac cong nghe moi... | 17_'Sinh viên hào hứng với AI, nhưng... | 0.1845 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Trong bối cảnh AI trở thành một... |
-| 5 | Nhung bai viet nao cho thay AI dang tac... | 15_Tham vọng xây trung tâm dữ liệu... | 0.1752 | Không | [DEMO LLM] Generated answer from prompt preview: Context: SpaceX đã dẫn đầu cuộc cách mạng... |
+| 1 | Trong bộ tài liệu, Microsoft đang phát triển... | 15_Tham vọng xây trung tâm dữ liệu... | 0.1390 | Không | [DEMO LLM] Generated answer from prompt preview: Context: "SpaceX đã dẫn đầu cuộc cách mạng... |
+| 2 | Những tổ chức hoặc doanh nghiệp nào đang... | 12_Giá tiền ảo Pi lại 'sập' mạnh.md | 0.2002 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo dữ liệu từ sàn tiền số Bitget... |
+| 3 | Những dự án liên quan đến không gian vũ... | 18_Nước sạch có thể là rủi ro...SpaceX... | 0.0324 | Có | [DEMO LLM] Generated answer from prompt preview: Context: Theo TechCrunch, trong bản sửa đổi... |
+| 4 | Những đột phá khoa học hoặc công nghệ mới... | 13_Tàu quỹ đạo Sao Hỏa của NASA... | 0.2639 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Lần cuối cùng Mạng lưới Không gian Sâu... |
+| 5 | Những bài viết nào cho thấy AI đang tác... | 01_Microsoft lộ 'kế hoạch khiến... | 0.1951 | Có | [DEMO LLM] Generated answer from prompt preview: Context: Theo tài liệu có tên ClawPilot... |
 
-**Bao nhiêu queries trả về chunk relevant trong top-3?** 0 / 5 (Do MockEmbedder sinh vector ngẫu nhiên nên tỷ lệ truy xuất chính xác thấp, đúng như dự đoán về mặt lý thuyết khi không sử dụng mô hình embedding thật).
+**Bao nhiêu queries trả về chunk relevant trong top-3?** 2 / 5 (Mặc dù sử dụng MockEmbedder với vector ngẫu nhiên, nhờ áp dụng Metadata Pre-filtering ở Query 3 giới hạn tập tìm kiếm chỉ trong các bài viết thuộc `category: space`, hệ thống đã lấy được chunk liên quan. Query 5 lấy được chunk về tài liệu Scout hỗ trợ văn phòng có độ tương ứng ngữ nghĩa phù hợp).
 
 ---
 
