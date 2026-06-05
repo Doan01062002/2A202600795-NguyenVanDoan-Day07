@@ -44,28 +44,27 @@
 
 ### Domain & Lý Do Chọn
 
-**Domain:** Tài liệu kỹ thuật hỗ trợ và thiết kế hệ thống AI Knowledge Assistant nội bộ.
+**Domain:** Tin tức Khoa học & Công nghệ năm 2026.
 
 **Tại sao nhóm chọn domain này?**
-> Nhóm chọn domain này để xây dựng một trợ lý hỗ trợ kỹ thuật và quy trình nội bộ giúp nhân viên dễ dàng tra cứu kiến thức từ cẩm nang hướng dẫn, các ghi chép về vector store, chunking và runbooks. Đây là một ứng dụng rất thực tiễn của hệ thống RAG trong doanh nghiệp.
+> Nhóm chọn tập tài liệu về tin tức công nghệ và sự kiện khoa học trong năm 2026. Đây là lĩnh vực chứa nhiều tên gọi kỹ thuật phức tạp, các số liệu định lượng (như dung lượng pin, số lượng tham số LLM) và các thực thể đặc thù (như NASA, Apple, Xiaomi, Microsoft). Sử dụng RAG sẽ giúp người dùng tra cứu nhanh thông tin chính xác từ các nguồn bài báo tin tức này.
 
 ### Data Inventory
 
 | # | Tên tài liệu | Nguồn | Số ký tự | Metadata đã gán |
 |---|--------------|-------|----------|-----------------|
-| 1 | python_intro.txt | Nội bộ | 1953 | department: engineering, lang: en |
-| 2 | vector_store_notes.md | Nội bộ | 2149 | department: engineering, lang: en |
-| 3 | rag_system_design.md | Nội bộ | 2416 | department: engineering, lang: en |
-| 4 | customer_support_playbook.txt | Nội bộ | 1703 | department: support, lang: en |
-| 5 | chunking_experiment_report.md | Nội bộ | 2008 | department: engineering, lang: en |
-| 6 | vi_retrieval_notes.md | Nội bộ | 2188 | department: support, lang: vi |
+| 1 | 07_iPhone 18 Pro lộ dung lượng pin.md | Tin tức công nghệ | 2315 | department: tech, lang: vi |
+| 2 | 08_Tai nghe chụp tai đầu tiên của Xiaomi giá 2,09 triệu đồng.md | Tin tức thiết bị | 9069 | department: device, lang: vi |
+| 3 | 11_Mô hình ngôn ngữ lớn tiếng Việt với 120 tỷ tham số.md | Tin tức AI | 4791 | department: ai, lang: vi |
+| 4 | 13_Tàu quỹ đạo Sao Hỏa của NASA dừng hoạt động sau 11 năm.md | Tin tức khoa học vũ trụ | 3281 | department: space, lang: vi |
+| 5 | 19_Microsoft ra tác nhân tự chủ tương tự OpenClaw.md | Tin tức phần mềm | 4414 | department: tech, lang: vi |
 
 ### Metadata Schema
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho retrieval? |
 |----------------|------|---------------|-------------------------------|
-| department | string | engineering | Giúp lọc nhanh tài liệu theo phòng ban cần tra cứu thông tin để loại bỏ nhiễu. |
-| lang | string | vi | Giúp lọc ngôn ngữ hiển thị (tiếng Anh hoặc tiếng Việt) phù hợp với người dùng. |
+| department | string | tech | Giúp phân nhóm bài báo theo từng danh mục công nghệ, trí tuệ nhân tạo, hay thiết bị. |
+| lang | string | vi | Giúp xác định ngôn ngữ bài báo để lọc ngôn ngữ hiển thị phù hợp với người dùng. |
 
 ---
 
@@ -89,7 +88,7 @@ Chạy `ChunkingStrategyComparator().compare()` trên tài liệu `data/vi_retri
 > Chiến lược sử dụng đệ quy để tách văn bản dựa trên một danh sách các ký tự phân tách có độ ưu tiên giảm dần (mặc định là `\n\n` $\rightarrow$ `\n` $\rightarrow$ `. ` $\rightarrow$ ` ` $\rightarrow$ `""`). Hệ thống sẽ thử phân tách bằng ký tự đầu tiên, nếu phần nào vượt quá kích thước `chunk_size` quy định thì tiếp tục gọi đệ quy phân tách bằng các ký tự tiếp theo. Sau khi phân tách xong, các phần liền kề sẽ được ghép lại với nhau sao cho tiệm cận với kích thước giới hạn tối đa mà không bao giờ vượt quá nó.
 
 **Tại sao tôi chọn strategy này cho domain nhóm?**
-> Tài liệu kỹ thuật nội bộ thường có cấu trúc rõ ràng dạng các đoạn văn (`\n\n`) và câu hoàn chỉnh. `RecursiveChunker` giúp giữ nguyên cấu trúc đoạn văn hoặc các câu có quan hệ mật thiết với nhau trong cùng một chunk để bảo toàn ngữ cảnh tốt nhất cho RAG.
+> Tài liệu tin tức báo chí thường phân cấp rõ ràng theo các đoạn văn (`\n\n`) và câu hoàn chỉnh. `RecursiveChunker` giúp giữ nguyên các đoạn văn bản có mối liên kết chặt chẽ trong cùng một chunk để bảo toàn nội dung bài báo tốt nhất.
 
 ### So Sánh: Strategy của tôi vs Baseline
 
@@ -107,7 +106,7 @@ Chạy `ChunkingStrategyComparator().compare()` trên tài liệu `data/vi_retri
 | Thành viên B | SentenceChunker | 7 / 10 | Bảo đảm câu trọn vẹn | Kích thước chunk không ổn định, dễ quá giới hạn |
 
 **Strategy nào tốt nhất cho domain này? Tại sao?**
-> Strategy `RecursiveChunker` là tốt nhất cho domain này vì tài liệu kỹ thuật có nhiều phân cấp (đoạn văn lớn, câu nhỏ). Việc chia đệ quy giúp giữ cấu trúc nguyên vẹn nhất có thể mà vẫn đảm bảo độ dài vector đồng đều.
+> Strategy `RecursiveChunker` là tốt nhất cho domain này vì bài báo tin tức có nhiều phân cấp. Việc chia đệ quy giúp giữ cấu trúc nguyên vẹn nhất có thể mà vẫn đảm bảo độ dài vector đồng đều.
 
 ---
 
@@ -169,23 +168,23 @@ Chạy 5 benchmark queries của nhóm trên implementation cá nhân của bạ
 
 | # | Query | Gold Answer |
 |---|-------|-------------|
-| 1 | Loi ich cua Sentence-Based Chunking la gi? | Giúp cải thiện khả năng đọc hiểu vì các đoạn cắt khớp với ranh giới tự nhiên của ngôn ngữ. |
-| 2 | Tai sao nen dung metadata filtering? | Giúp thu hẹp không gian tìm kiếm, tăng độ chính xác và tránh lấy nhầm các tài liệu ngoài phạm vi hoặc đã cũ. |
-| 3 | Kien truc de xuat cho he thong RAG gom nhung lop nao? | Gồm 3 lớp: Lớp truyền tải dữ liệu (Ingestion layer), Lớp truy xuất dữ liệu (Retrieval layer), và Lớp ứng dụng (Application layer). |
-| 4 | Cac buoc trong mot pipeline tim kiem vector? | Gồm 4 bước: Chia nhỏ tài liệu, Tạo embedding cho chunk, Lưu trữ vector và metadata, Tạo embedding cho query và xếp hạng kết quả. |
-| 5 | Lam the nao de xu ly cac cau hoi ve tai khoan ho tro? | Trực tiếp tra cứu trong Customer Support Playbook để lấy các quy trình đăng ký tài khoản, sửa lỗi hóa đơn hoặc lấy lại mật khẩu. |
+| 1 | Dung luong pin du kien cua iPhone 18 Pro ban My va ban Trung Quoc lan luot la bao nhieu va tai sao co su chenh lech nay? | Bản Trung Quốc dự kiến dùng pin khoảng 4.056 mAh, bản Mỹ ở mức 4.288 mAh. Chênh lệch là do bản Mỹ loại bỏ khay SIM vật lý để chuyển sang eSIM, giải phóng không gian để tích hợp pin lớn hơn. |
+| 2 | Redmi Headphones Neo co thoi luong pin toi da la bao nhieu gio va ho tro sac nhanh nhu the nao? | Thời gian nghe nhạc liên tục đến 72 giờ (ở mức âm lượng 50% và tắt chống ồn). Hỗ trợ sạc nhanh với 10 phút sạc cho 5 giờ sử dụng. |
+| 3 | Mo hinh VT-Super-120B-A12B duoc xay dung tren kien truc nao va dat duoc bao nhieu diem trong bang xep hang VLMU? | Xây dựng trên kiến trúc mở Nvidia Nemotron 3 Super với 120 tỷ tham số. Điểm trung bình VLMU đạt được là 85,47 (đứng thứ ba tại Việt Nam). |
+| 4 | Tau Maven duoc phong vao thoi gian nao, bang ten lua gi va muc tieu khoa hoc ban dau la gi? | Phóng vào tháng 11/2013 bằng tên lửa ULA Atlas V. Mục tiêu là mang theo thiết bị đo lường cách khí quyển Sao Hỏa phát triển và tương tác với gió Mặt Trời. |
+| 5 | Tìm kiếm thông tin trong các tài liệu tiếng Việt về tính năng và cơ chế bảo mật của trợ lý văn phòng Scout? | Hoạt động trên đám mây, tích hợp kỹ năng quản lý lịch và soạn họp. Cơ chế bảo mật 'tuân thủ chính sách' liên tục kiểm tra hoạt động đúng quy định và tạo nhật ký kiểm toán. |
 
 ### Kết Quả Của Tôi
 
 | # | Query | Top-1 Retrieved Chunk (tóm tắt) | Score | Relevant? | Agent Answer (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Loi ich cua Sentence-Based Chunking la gi? | customer_support_playbook.txt... | 0.1954 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Customer Support Playbook... |
-| 2 | Tai sao nen dung metadata filtering? | chunking_experiment_report.md... | 0.2564 | Không | [DEMO LLM] Generated answer from prompt preview: Context: # Chunking Experiment Report... |
-| 3 | Kien truc de xuat cho he thong RAG gom nhung lop nao? | python_intro.txt... | 0.1055 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Python is a high-level... |
-| 4 | Cac buoc trong mot pipeline tim kiem vector? | chunking_experiment_report.md... | 0.1413 | Không | [DEMO LLM] Generated answer from prompt preview: Context: # Chunking Experiment Report... |
-| 5 | Lam the nao de xu ly cac cau hoi ve tai khoan ho tro? | customer_support_playbook.txt... | 0.1869 | Có | [DEMO LLM] Generated answer from prompt preview: Context: Customer Support Playbook... |
+| 1 | Dung luong pin du kien cua iPhone 18 Pro... | 16_Microsoft ra chip lượng tử mới... | 0.3526 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
+| 2 | Redmi Headphones Neo co thoi luong pin... | 09_Blue Origin muốn phóng lại tên lửa... | 0.1958 | Không | [DEMO LLM] Generated answer from prompt preview: Context: "Chúng tôi sẽ bay trở lại... |
+| 3 | Mo hinh VT-Super-120B-A12B duoc xay dung... | 12_Giá tiền ảo Pi lại 'sập' mạnh.md | 0.2996 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo dữ liệu từ sàn tiền số Bitget... |
+| 4 | Tau Maven duoc phong vao thoi gian nao... | 01_Microsoft lộ 'kế hoạch...Scout'.md | 0.3142 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo tài liệu có tên ClawPilot... |
+| 5 | Tim kiem thong tin trong cac tai lieu... | 10_Ứng dụng mô hình 4 lớp...md | 0.3151 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Tại hội thảo tập huấn... |
 
-**Bao nhiêu queries trả về chunk relevant trong top-3?** 1 / 5 (Do MockEmbedder sinh vector ngẫu nhiên nên tỷ lệ truy xuất chính xác thấp, đúng như dự đoán về mặt lý thuyết khi không sử dụng mô hình embedding thật).
+**Bao nhiêu queries trả về chunk relevant trong top-3?** 0 / 5 (Do MockEmbedder sinh vector ngẫu nhiên nên tỷ lệ truy xuất chính xác thấp, đúng như dự đoán về mặt lý thuyết khi không sử dụng mô hình embedding thật).
 
 ---
 
