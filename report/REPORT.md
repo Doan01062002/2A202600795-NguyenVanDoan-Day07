@@ -1,7 +1,7 @@
 # Báo Cáo Lab 7: Embedding & Vector Store
 
-**Họ tên:** Nguyễn Văn Đoán
-**Nhóm:** Nhóm C2 - C401
+**Họ tên:** Nguyễn Văn Đoan
+**MSSV:** 2A202600795
 **Ngày:** 05/06/2026
 
 ---
