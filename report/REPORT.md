@@ -82,31 +82,33 @@ Chạy `ChunkingStrategyComparator().compare()` trên tài liệu `data/vi_retri
 
 ### Strategy Của Tôi
 
-**Loại:** RecursiveChunker (`recursive`)
+**Loại:** FixedSizeChunker (`fixed_size`)
 
 **Mô tả cách hoạt động:**
-> Chiến lược sử dụng đệ quy để tách văn bản dựa trên một danh sách các ký tự phân tách có độ ưu tiên giảm dần (mặc định là `\n\n` $\rightarrow$ `\n` $\rightarrow$ `. ` $\rightarrow$ ` ` $\rightarrow$ `""`). Hệ thống sẽ thử phân tách bằng ký tự đầu tiên, nếu phần nào vượt quá kích thước `chunk_size` quy định thì tiếp tục gọi đệ quy phân tách bằng các ký tự tiếp theo. Sau khi phân tách xong, các phần liền kề sẽ được ghép lại với nhau sao cho tiệm cận với kích thước giới hạn tối đa mà không bao giờ vượt quá nó.
+> Chiến lược sử dụng cắt văn bản theo kích thước cố định (chunk_size = 200 ký tự) với độ gối đầu overlap = 20 ký tự. Đây là phương pháp cắt đơn giản, chia nhỏ văn bản thành các khối có độ dài ký tự bằng nhau để biểu diễn vector.
 
 **Tại sao tôi chọn strategy này cho domain nhóm?**
-> Tài liệu tin tức báo chí thường phân cấp rõ ràng theo các đoạn văn (`\n\n`) và câu hoàn chỉnh. `RecursiveChunker` giúp giữ nguyên các đoạn văn bản có mối liên kết chặt chẽ trong cùng một chunk để bảo toàn nội dung bài báo tốt nhất.
+> Với bộ dữ liệu tin tức công nghệ đa dạng, việc cắt nhỏ 200 ký tự giúp vector hóa nhanh và tập trung vào các từ khóa cục bộ cụ thể trong từng bài viết.
 
 ### So Sánh: Strategy của tôi vs Baseline
 
 | Tài liệu | Strategy | Chunk Count | Avg Length | Retrieval Quality? |
 |-----------|----------|-------------|------------|--------------------|
-| vi_retrieval_notes.md | best baseline (by_sentences) | 5 | 331.6 | Tốt, nhưng kích thước chunk không ổn định |
-| vi_retrieval_notes.md | **của tôi (recursive)** | 12 | 137.0 | Rất tốt, các đoạn cắt đều đặn, giữ nguyên ý và không bị vượt quá giới hạn ký tự |
+| vi_retrieval_notes.md | best baseline (recursive) | 12 | 137.0 | Rất tốt, giữ được ngữ cảnh đệ quy của đoạn văn |
+| vi_retrieval_notes.md | **của tôi (fixed_size)** | 11 | 197.0 | Trung bình, các chunk dễ bị cắt đứt ý ở phần rìa 20 ký tự overlap |
 
 ### So Sánh Với Thành Viên Khác
 
 | Thành viên | Strategy | Retrieval Score (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| Tôi | RecursiveChunker | 8 / 10 | Giữ ngữ cảnh đoạn tốt, kích thước đều đặn | Không cấu hình overlap đệ quy |
-| Thành viên A | FixedSizeChunker | 6 / 10 | Đơn giản, số chunk ổn định | Dễ cắt đứt câu giữa chừng làm mất ý |
-| Thành viên B | SentenceChunker | 7 / 10 | Bảo đảm câu trọn vẹn | Kích thước chunk không ổn định, dễ quá giới hạn |
+| Tôi (TV1) | FixedSize (200, 20) | 6 / 10 | Đơn giản, số lượng chunk đều đặn | Dễ ngắt đoạn ý ở ranh giới chunk |
+| Thành viên 2 | FixedSize (600, 100) | 7 / 10 | Ngữ cảnh rộng hơn trong mỗi chunk | Điểm tương đồng bị loãng khi có nhiều ý |
+| Thành viên 3 | Sentence Chunker | 7 / 10 | Giữ câu trọn vẹn | Kích thước không đồng đều |
+| Thành viên 4 | Recursive Chunker | 8 / 10 | Giữ đoạn văn cấu trúc tốt | Tốc độ cắt chậm hơn |
+| Thành viên 5 | Custom Chunker | 9 / 10 | Cắt hoàn hảo theo ngữ cảnh | Phụ thuộc vào định dạng bài báo |
 
 **Strategy nào tốt nhất cho domain này? Tại sao?**
-> Strategy `RecursiveChunker` là tốt nhất cho domain này vì bài báo tin tức có nhiều phân cấp. Việc chia đệ quy giúp giữ cấu trúc nguyên vẹn nhất có thể mà vẫn đảm bảo độ dài vector đồng đều.
+> Strategy `RecursiveChunker` hoặc `Custom Chunker` (cắt theo tiêu đề bài viết) là tốt nhất cho domain này vì bài báo tin tức có cấu trúc rõ ràng. Việc chia đệ quy giúp giữ cấu trúc nguyên vẹn nhất có thể mà vẫn đảm bảo độ dài vector đồng đều.
 
 ---
 
@@ -174,17 +176,17 @@ Chạy 5 benchmark queries của nhóm trên implementation cá nhân của bạ
 | 4 | Những đột phá khoa học hoặc công nghệ mới nào được đề cập trong bộ tài liệu, và chúng có thể tạo ra những tác động gì trong tương lai? | Lần đầu chỉnh sửa chính xác gene phôi người (bài 05); chip lượng tử mới của Microsoft (bài 16); LLM tiếng Việt 120 tỷ tham số (bài 11); lắp đặt lò phản ứng hạt nhân bằng cần cẩu lớn nhất thế giới (bài 14). |
 | 5 | Những bài viết nào cho thấy AI đang tác động đến cách con người học tập, làm việc hoặc vận hành tổ chức? Hãy tổng hợp các tác động chính. | Sinh viên hào hứng với AI nhưng bất định về tương lai (bài 17); Google X - không thể theo lối cũ khi AI làm tốt hơn (bài 02); ứng dụng mô hình 4 lớp trong chuyển đổi số cấp xã/phường (bài 10); AI giúp công ty châu Âu mở rộng sang Mỹ (bài 20). |
 
-### Kết Quả Của Tôi
+### Kết Quả Của Tôi (FixedSizeChunker - chunk_size=200, overlap=20)
 
 | # | Query | Top-1 Retrieved Chunk (tóm tắt) | Score | Relevant? | Agent Answer (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Trong bộ tài liệu, Microsoft đang phát triển... | 15_Tham vọng xây trung tâm dữ liệu... | 0.1390 | Không | [DEMO LLM] Generated answer from prompt preview: Context: "SpaceX đã dẫn đầu cuộc cách mạng... |
-| 2 | Những tổ chức hoặc doanh nghiệp nào đang... | 12_Giá tiền ảo Pi lại 'sập' mạnh.md | 0.2002 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo dữ liệu từ sàn tiền số Bitget... |
-| 3 | Những dự án liên quan đến không gian vũ... | 18_Nước sạch có thể là rủi ro...SpaceX... | 0.0324 | Có | [DEMO LLM] Generated answer from prompt preview: Context: Theo TechCrunch, trong bản sửa đổi... |
-| 4 | Những đột phá khoa học hoặc công nghệ mới... | 13_Tàu quỹ đạo Sao Hỏa của NASA... | 0.2639 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Lần cuối cùng Mạng lưới Không gian Sâu... |
-| 5 | Những bài viết nào cho thấy AI đang tác... | 01_Microsoft lộ 'kế hoạch khiến... | 0.1951 | Có | [DEMO LLM] Generated answer from prompt preview: Context: Theo tài liệu có tên ClawPilot... |
+| 1 | Trong bộ tài liệu, Microsoft đang phát triển... | 04_Mỹ loại bỏ 23 triệu kg cá chép... | 0.3878 | Không | [DEMO LLM] Generated answer from prompt preview: Context: i những con cá to... |
+| 2 | Những tổ chức hoặc doanh nghiệp nào đang... | 18_Nước sạch có thể là rủi ro...SpaceX... | 0.3592 | Không | [DEMO LLM] Generated answer from prompt preview: Context: ung điều này... |
+| 3 | Những dự án liên quan đến không gian vũ... | 15_Tham vọng xây trung tâm dữ liệu... | 0.2852 | Có | [DEMO LLM] Generated answer from prompt preview: Context: "SpaceX đã dẫn đầu cuộc cách mạng... |
+| 4 | Những đột phá khoa học hoặc công nghệ mới... | 01_Microsoft lộ 'kế hoạch khiến... | 0.3478 | Không | [DEMO LLM] Generated answer from prompt preview: Context: out (tên nội bộ là ClawPilot)... |
+| 5 | Những bài viết nào cho thấy AI đang tác... | 16_Microsoft ra chip lượng tử mới... | 0.3659 | Không | [DEMO LLM] Generated answer from prompt preview: Context: ời gian 2028-2032... |
 
-**Bao nhiêu queries trả về chunk relevant trong top-3?** 2 / 5 (Mặc dù sử dụng MockEmbedder với vector ngẫu nhiên, nhờ áp dụng Metadata Pre-filtering ở Query 3 giới hạn tập tìm kiếm chỉ trong các bài viết thuộc `category: space`, hệ thống đã lấy được chunk liên quan. Query 5 lấy được chunk về tài liệu Scout hỗ trợ văn phòng có độ tương ứng ngữ nghĩa phù hợp).
+**Bao nhiêu queries trả về chunk relevant trong top-3?** 1 / 5 (Do sử dụng chiến lược FixedSize kích thước nhỏ 200 ký tự cùng MockEmbedder, chỉ có Query 3 tìm kiếm về các dự án vũ trụ là trích xuất được chunk liên quan do đã áp dụng bộ lọc `category: space` trước khi tìm kiếm).
 
 ---
 
