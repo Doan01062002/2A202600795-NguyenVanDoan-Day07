@@ -101,14 +101,14 @@ Chạy `ChunkingStrategyComparator().compare()` trên tài liệu `data/vi_retri
 
 | Thành viên | Strategy | Retrieval Score (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| Tôi (TV1) | FixedSize (200, 20) | 6 / 10 | Đơn giản, số lượng chunk đều đặn | Dễ ngắt đoạn ý ở ranh giới chunk |
-| Thành viên 2 | FixedSize (600, 100) | 7 / 10 | Ngữ cảnh rộng hơn trong mỗi chunk | Điểm tương đồng bị loãng khi có nhiều ý |
-| Thành viên 3 | Sentence Chunker | 7 / 10 | Giữ câu trọn vẹn | Kích thước không đồng đều |
-| Thành viên 4 | Recursive Chunker | 8 / 10 | Giữ đoạn văn cấu trúc tốt | Tốc độ cắt chậm hơn |
-| Thành viên 5 | Custom Chunker | 9 / 10 | Cắt hoàn hảo theo ngữ cảnh | Phụ thuộc vào định dạng bài báo |
+| Nguyễn Văn Đoan | FixedSize (200, 20) | 6 / 10 | Cực kỳ đơn giản, phân mảnh đều đặn, tốc độ xử lý nhanh | Cắt cứng ký tự nên dễ ngắt câu giữa chừng, ranh giới overlap 20 ký tự chưa đủ lớn để bảo toàn ngữ cảnh tốt |
+| Trần Hoàng Đạt | Recursive (300) | 9 / 10 | Giữ ngữ cảnh cấu trúc báo chí cực tốt, kích thước ổn định | Đòi hỏi xử lý đệ quy tốn kém tài nguyên hơn |
+| Phạm Thị Tuyết Nga | Sentence (max=3) | 7 / 10 | Theo câu tự nhiên, dễ đọc/kiểm chứng, không cắt giữa câu | Độ dài chunk dao động; 3 câu dài có thể gộp 2 ý |
+| Tạ Duy Xuân | Custom (SciencePaper) | 2 / 10 | Giữ cấu trúc logic | Chunk quá dài |
+| Lê Duy Hùng | FixedSize (200, 20) | 6 / 10 | Chunk nhỏ, tập trung vào chi tiết, ít nhiễu | Dễ mất ngữ cảnh khi câu trả lời cần nhiều thông tin liên tiếp |
 
 **Strategy nào tốt nhất cho domain này? Tại sao?**
-> Strategy `RecursiveChunker` hoặc `Custom Chunker` (cắt theo tiêu đề bài viết) là tốt nhất cho domain này vì bài báo tin tức có cấu trúc rõ ràng. Việc chia đệ quy giúp giữ cấu trúc nguyên vẹn nhất có thể mà vẫn đảm bảo độ dài vector đồng đều.
+> Strategy `RecursiveChunker (size=300)` của bạn Trần Hoàng Đạt là tốt nhất cho domain này với điểm số 9/10. Lý do là vì tin tức báo chí thường phân cấp rõ ràng theo các đoạn văn ngắn, việc sử dụng đệ quy giúp giữ cấu trúc nguyên vẹn nhất mà không làm vỡ ranh giới ý nghĩa, đồng thời kích thước 300 ký tự là độ dài lý tưởng cho các câu tin tức.
 
 ---
 
