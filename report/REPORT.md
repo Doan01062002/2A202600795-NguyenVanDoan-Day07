@@ -168,21 +168,21 @@ Chạy 5 benchmark queries của nhóm trên implementation cá nhân của bạ
 
 | # | Query | Gold Answer |
 |---|-------|-------------|
-| 1 | Dung luong pin du kien cua iPhone 18 Pro ban My va ban Trung Quoc lan luot la bao nhieu va tai sao co su chenh lech nay? | Bản Trung Quốc dự kiến dùng pin khoảng 4.056 mAh, bản Mỹ ở mức 4.288 mAh. Chênh lệch là do bản Mỹ loại bỏ khay SIM vật lý để chuyển sang eSIM, giải phóng không gian để tích hợp pin lớn hơn. |
-| 2 | Redmi Headphones Neo co thoi luong pin toi da la bao nhieu gio va ho tro sac nhanh nhu the nao? | Thời gian nghe nhạc liên tục đến 72 giờ (ở mức âm lượng 50% và tắt chống ồn). Hỗ trợ sạc nhanh với 10 phút sạc cho 5 giờ sử dụng. |
-| 3 | Mo hinh VT-Super-120B-A12B duoc xay dung tren kien truc nao va dat duoc bao nhieu diem trong bang xep hang VLMU? | Xây dựng trên kiến trúc mở Nvidia Nemotron 3 Super với 120 tỷ tham số. Điểm trung bình VLMU đạt được là 85,47 (đứng thứ ba tại Việt Nam). |
-| 4 | Tau Maven duoc phong vao thoi gian nao, bang ten lua gi va muc tieu khoa hoc ban dau la gi? | Phóng vào tháng 11/2013 bằng tên lửa ULA Atlas V. Mục tiêu là mang theo thiết bị đo lường cách khí quyển Sao Hỏa phát triển và tương tác với gió Mặt Trời. |
-| 5 | Tìm kiếm thông tin trong các tài liệu tiếng Việt về tính năng và cơ chế bảo mật của trợ lý văn phòng Scout? | Hoạt động trên đám mây, tích hợp kỹ năng quản lý lịch và soạn họp. Cơ chế bảo mật 'tuân thủ chính sách' liên tục kiểm tra hoạt động đúng quy định và tạo nhật ký kiểm toán. |
+| 1 | Trong bộ tài liệu, Microsoft đang phát triển hoặc công bố những sản phẩm AI nào và mục tiêu của chúng là gì? | Microsoft đang phát triển tác nhân tự chủ tương tự OpenClaw, chip lượng tử mới dưới sự trợ giúp của AI, và dự án AI Scout (mục tiêu nhằm khiến người dùng sử dụng thường xuyên/nghiện). |
+| 2 | Những tổ chức hoặc doanh nghiệp nào đang đầu tư mạnh vào AI, và họ tập trung vào những lĩnh vực hoặc ứng dụng nào? | Microsoft tập trung vào tác nhân tự chủ và chip lượng tử; Google (X) tập trung vào AI thay thế cách học truyền thống; Apple ứng dụng AI để giúp hệ sinh thái App Store đạt quy mô kỷ lục. |
+| 3 | Những dự án liên quan đến không gian vũ trụ trong tập tài liệu đang đối mặt với những cơ hội hoặc thách thức gì? | Thách thức: Tàu quỹ đạo Sao Hỏa (Maven) của NASA mất điện và ngừng hoạt động sau 11 năm; trung tâm dữ liệu vũ trụ của Musk đối mặt vấn đề về triển vọng thành công; SpaceX gặp rủi ro nguồn nước sạch. Cơ hội: Blue Origin có kế hoạch phóng lại tên lửa. |
+| 4 | Những đột phá khoa học hoặc công nghệ mới nào được đề cập trong bộ tài liệu, và chúng có thể tạo ra những tác động gì trong tương lai? | Đột phá gồm việc chỉnh sửa chính xác gene phôi người lần đầu tiên, phát triển mô hình ngôn ngữ lớn tiếng Việt 120 tỷ tham số, và ứng dụng AI vào vật liệu/chip lượng tử. Chúng có thể gây rủi ro về chuyên môn lao động tương lai. |
+| 5 | Những bài viết nào cho thấy AI đang tác động đến cách con người học tập, làm việc hoặc vận hành tổ chức? Hãy tổng hợp các tác động chính. | Các bài viết về Google X và phản ứng của sinh viên với AI cho thấy: ChatGPT đã giải quyết bài tập hoàn hảo làm thay đổi hoàn toàn cách ra đề của giáo viên, buộc các trường công nghệ phải nâng cấp chương trình và khiến giới trẻ lo lắng về khoảng trống chuyên môn. |
 
 ### Kết Quả Của Tôi
 
 | # | Query | Top-1 Retrieved Chunk (tóm tắt) | Score | Relevant? | Agent Answer (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Dung luong pin du kien cua iPhone 18 Pro... | 16_Microsoft ra chip lượng tử mới... | 0.3526 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
-| 2 | Redmi Headphones Neo co thoi luong pin... | 09_Blue Origin muốn phóng lại tên lửa... | 0.1958 | Không | [DEMO LLM] Generated answer from prompt preview: Context: "Chúng tôi sẽ bay trở lại... |
-| 3 | Mo hinh VT-Super-120B-A12B duoc xay dung... | 12_Giá tiền ảo Pi lại 'sập' mạnh.md | 0.2996 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo dữ liệu từ sàn tiền số Bitget... |
-| 4 | Tau Maven duoc phong vao thoi gian nao... | 01_Microsoft lộ 'kế hoạch...Scout'.md | 0.3142 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo tài liệu có tên ClawPilot... |
-| 5 | Tim kiem thong tin trong cac tai lieu... | 10_Ứng dụng mô hình 4 lớp...md | 0.3151 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Tại hội thảo tập huấn... |
+| 1 | Trong bo tai lieu, Microsoft dang phat trien... | 16_Microsoft ra chip lượng tử mới... | 0.3044 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
+| 2 | Nhung to chuc hoac doanh nghiep nao dang... | 04_Mỹ loại bỏ 23 triệu kg cá chép... | 0.2109 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Theo Popular Science, trong 15 năm... |
+| 3 | Nhung du an lien quan den khong gian vu tru... | 16_Microsoft ra chip lượng tử mới... | 0.1628 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Ra mắt sự kiện Microsoft Build 2026... |
+| 4 | Nhung dot pha khoa hoc hoac cong nghe moi... | 17_'Sinh viên hào hứng với AI, nhưng... | 0.1845 | Không | [DEMO LLM] Generated answer from prompt preview: Context: Trong bối cảnh AI trở thành một... |
+| 5 | Nhung bai viet nao cho thay AI dang tac... | 15_Tham vọng xây trung tâm dữ liệu... | 0.1752 | Không | [DEMO LLM] Generated answer from prompt preview: Context: SpaceX đã dẫn đầu cuộc cách mạng... |
 
 **Bao nhiêu queries trả về chunk relevant trong top-3?** 0 / 5 (Do MockEmbedder sinh vector ngẫu nhiên nên tỷ lệ truy xuất chính xác thấp, đúng như dự đoán về mặt lý thuyết khi không sử dụng mô hình embedding thật).
 
